@@ -2,6 +2,10 @@
 
 Sistem informasi akuntansi pendapatan jasa bengkel berbasis HTML, CSS, JavaScript, Node.js native, dan Supabase Postgres.
 
+> **Demo publik:** [Buka Press Body Motor](https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/)
+>
+> Jika demo belum dapat dibuka, aktifkan GitHub Pages dengan source **GitHub Actions** pada **Settings → Pages**. Setelah workflow deployment berhasil, tautan di atas dapat diakses publik.
+
 ## Struktur
 
 - `frontend/` - halaman dashboard, stylesheet, dan JavaScript browser
@@ -33,10 +37,9 @@ Sistem informasi akuntansi pendapatan jasa bengkel berbasis HTML, CSS, JavaScrip
 
 ## Demo publik GitHub Pages
 
-1. Push project ke branch `main` repository GitHub.
-2. Di repository, buka **Settings → Pages** lalu pilih **GitHub Actions** sebagai build and deployment source.
-3. Buka tab **Actions**, tunggu workflow `Deploy Press Body Motor to GitHub Pages` berstatus sukses.
-4. URL demo muncul pada **Settings → Pages**. Format umumnya `https://USERNAME.github.io/NAMA-REPOSITORY/`.
+1. Di repository, buka **Settings → Pages** lalu pilih **GitHub Actions** sebagai build and deployment source.
+2. Buka tab **Actions**, tunggu workflow `Deploy Press Body Motor to GitHub Pages` berstatus sukses.
+3. Demo publik tersedia di [mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-](https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/).
 
 Di GitHub Pages, frontend memanggil Supabase REST API secara langsung menggunakan publishable key; backend Node lokal tidak dijalankan oleh GitHub Pages. Publishable key memang boleh ada di frontend, tetapi jangan pernah memasukkan `service_role` key. Karena demo mengizinkan penulisan oleh role `anon`, siapa pun yang menemukan URL dapat mencoba membuat data; gunakan autentikasi dan policy RLS yang lebih ketat sebelum dipakai untuk data/operasi nyata.
 
