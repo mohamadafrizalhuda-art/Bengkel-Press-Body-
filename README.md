@@ -9,6 +9,7 @@ Sistem informasi akuntansi pendapatan jasa bengkel berbasis HTML, CSS, JavaScrip
 - `database/schema.sql` - empat entitas ERD, relasi, policy, index, dan data awal
 - `database/enable-master-inserts.sql` - grant dan policy input untuk pelanggan, kendaraan, layanan, dan pendapatan
 - `database/operational-features.sql` - tabel booking/antrean tanpa menghapus history
+- `database/admin-delete-policy.sql` - hak hapus khusus akun Supabase dengan role admin
 - `.github/workflows/deploy-pages.yml` - deploy otomatis folder frontend ke GitHub Pages
 
 ## Menjalankan
@@ -16,13 +17,19 @@ Sistem informasi akuntansi pendapatan jasa bengkel berbasis HTML, CSS, JavaScrip
 1. Jalankan `database/schema.sql` melalui Supabase SQL Editor.
 2. Jalankan `database/enable-master-inserts.sql` agar semua form bisa menambah pelanggan, kendaraan, layanan, dan transaksi. Aman dijalankan ulang dan tidak menghapus history.
 3. Untuk kalender booking, antrean, status pengerjaan, dan kasir dari tiket selesai, jalankan `database/operational-features.sql`. Migrasi ini aman untuk data yang sudah ada.
-4. Buka `backend/app.js`, isi `SUPABASE_URL` dan `SUPABASE_PUBLISHABLE_KEY`.
-5. Pastikan Node.js 18 atau lebih baru tersedia.
-6. Jalankan dari folder utama:
+4. Jika perlu hapus data, jalankan `database/admin-delete-policy.sql`. Ini hanya memberi hak DELETE ke role authenticated dengan app_metadata role admin; role anon secara eksplisit tidak diberi hak hapus.
+5. Buat akun admin di Supabase **Authentication → Users**, lalu beri role admin melalui SQL Editor:
+
+   `update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb where email = 'EMAIL_ADMIN';`
+
+   Ganti `EMAIL_ADMIN` dengan email akun admin. Keluar lalu login kembali di aplikasi agar token memuat role terbaru. Hapus hanya muncul untuk admin; foreign key akan mencegah penghapusan data yang masih terhubung ke history.
+6. Buka `backend/app.js`, isi `SUPABASE_URL` dan `SUPABASE_PUBLISHABLE_KEY`.
+7. Pastikan Node.js 18 atau lebih baru tersedia.
+8. Jalankan dari folder utama:
 
    `node backend/app.js`
 
-7. Buka `http://localhost:3000`.
+9. Buka `http://localhost:3000`.
 
 ## Demo publik GitHub Pages
 
