@@ -1,48 +1,107 @@
-# Press Body Motor
+<div align="center">
+  <img src="https://raw.githubusercontent.com/mohamadafrizalhuda-art/Bengkel-Press-Body-/main/frontend/logo/logo-horizontal-header-hijau%20%281%29.png" alt="Logo Press Body Motor" width="560">
+  <h1>Sistem Informasi Akuntansi Press Body Motor</h1>
+  <p>Aplikasi web untuk membantu bengkel mencatat pendapatan, mengelola pelanggan dan kendaraan, serta memantau aktivitas layanan dalam satu tempat.</p>
+  <p>
+    <a href="https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/"><strong>🌐 Buka Demo Website</strong></a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JavaScript-e9a23b?style=flat-square" alt="Frontend HTML CSS JavaScript">
+    <img src="https://img.shields.io/badge/Backend-Node.js%20Native-315b49?style=flat-square" alt="Backend Node.js">
+    <img src="https://img.shields.io/badge/Database-Supabase%20PostgreSQL-315b49?style=flat-square" alt="Database Supabase PostgreSQL">
+    <img src="https://img.shields.io/badge/Deploy-GitHub%20Pages-e9a23b?style=flat-square" alt="Deployment GitHub Pages">
+  </p>
+</div>
 
-Sistem informasi akuntansi pendapatan jasa bengkel berbasis HTML, CSS, JavaScript, Node.js native, dan Supabase Postgres.
+## Tentang Proyek
 
-> **Demo publik:** [Buka Press Body Motor](https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/)
->
-> Jika demo belum dapat dibuka, aktifkan GitHub Pages dengan source **GitHub Actions** pada **Settings → Pages**. Setelah workflow deployment berhasil, tautan di atas dapat diakses publik.
+Press Body Motor adalah aplikasi pencatatan operasional dan pendapatan jasa bengkel. Aplikasi menyediakan dashboard, data pelanggan dan kendaraan, katalog layanan, booking dan antrean, serta riwayat transaksi dengan struk yang bisa dicetak atau dibagikan.
 
-## Struktur
+Demo publik: **[mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-](https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/)**
 
-- `frontend/` - halaman dashboard, stylesheet, dan JavaScript browser
-- `backend/app.js` - server HTTP native dan proxy REST Supabase
-- `database/schema.sql` - empat entitas ERD, relasi, policy, index, dan data awal
-- `database/enable-master-inserts.sql` - grant dan policy input untuk pelanggan, kendaraan, layanan, dan pendapatan
-- `database/operational-features.sql` - tabel booking/antrean tanpa menghapus history
-- `database/admin-delete-policy.sql` - hak hapus khusus akun Supabase dengan role admin
-- `.github/workflows/deploy-pages.yml` - deploy otomatis folder frontend ke GitHub Pages
+## Teknologi
 
-## Menjalankan
+| Bagian | Teknologi |
+|---|---|
+| Antarmuka | HTML, CSS, JavaScript tanpa framework |
+| Backend lokal | Node.js native HTTP server |
+| Database dan API | Supabase PostgreSQL dan REST API |
+| Autentikasi admin | Supabase Auth dengan role admin |
+| Hosting frontend | GitHub Pages melalui GitHub Actions |
+| Font dan ikon | Plus Jakarta Sans, DM Sans, ikon SVG |
 
-1. Jalankan `database/schema.sql` melalui Supabase SQL Editor.
-2. Jalankan `database/enable-master-inserts.sql` agar semua form bisa menambah pelanggan, kendaraan, layanan, dan transaksi. Aman dijalankan ulang dan tidak menghapus history.
-3. Untuk kalender booking, antrean, status pengerjaan, dan kasir dari tiket selesai, jalankan `database/operational-features.sql`. Migrasi ini aman untuk data yang sudah ada.
-4. Jika perlu hapus data, jalankan `database/admin-delete-policy.sql`. Ini hanya memberi hak DELETE ke role authenticated dengan app_metadata role admin; role anon secara eksplisit tidak diberi hak hapus.
-5. Buat akun admin di Supabase **Authentication → Users**, lalu beri role admin melalui SQL Editor:
+## Fitur
 
-   `update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb where email = 'EMAIL_ADMIN';`
+| Menu | Fitur |
+|---|---|
+| **Ringkasan** | Ringkasan pendapatan dan transaksi, grafik pendapatan, kalender booking, serta kapasitas bengkel. |
+| **Layanan** | Catat booking atau walk-in, pantau antrean dan status pengerjaan, estimasi layanan, serta panggil pelanggan. |
+| **Pendapatan** | Catat transaksi, isi harga dari katalog layanan lalu sesuaikan bila diperlukan, dan lihat aktivitas transaksi terbaru. |
+| **Riwayat struk** | Buka struk dari transaksi, pilih kertas Thermal 58 mm, Thermal 80 mm, atau A4/PDF, cetak, dan bagikan melalui WhatsApp. |
+| **Laporan** | Filter pendapatan berdasarkan periode dan metode pembayaran, lalu cetak atau ekspor CSV yang kompatibel dengan Excel. |
+| **Data master** | Kelola data pelanggan, kendaraan, dan katalog layanan untuk digunakan pada transaksi. |
+| **Akses admin** | Login admin untuk menghapus data yang diizinkan oleh policy database. |
 
-   Ganti `EMAIL_ADMIN` dengan email akun admin. Keluar lalu login kembali di aplikasi agar token memuat role terbaru. Hapus hanya muncul untuk admin; foreign key akan mencegah penghapusan data yang masih terhubung ke history.
-6. Buka `backend/app.js`, isi `SUPABASE_URL` dan `SUPABASE_PUBLISHABLE_KEY`.
-7. Pastikan Node.js 18 atau lebih baru tersedia.
-8. Jalankan dari folder utama:
+## Alur Penggunaan
 
-   `node backend/app.js`
+1. Siapkan database Supabase menggunakan SQL yang tersedia di folder `database/`.
+2. Tambahkan data pelanggan, kendaraan, dan layanan pada **Data Master**.
+3. Catat booking/antrean pada menu **Layanan**, atau langsung catat pembayaran pada menu **Pendapatan**.
+4. Buka struk dari nominal transaksi untuk melihat riwayat, mencetak struk, atau membagikannya.
+5. Gunakan **Laporan Pendapatan** untuk memfilter dan mengekspor transaksi.
 
-9. Buka `http://localhost:3000`.
+## Menjalankan Secara Lokal
 
-## Demo publik GitHub Pages
+### 1. Siapkan database
 
-1. Di repository, buka **Settings → Pages** lalu pilih **GitHub Actions** sebagai build and deployment source.
-2. Buka tab **Actions**, tunggu workflow `Deploy Press Body Motor to GitHub Pages` berstatus sukses.
-3. Demo publik tersedia di [mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-](https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/).
+Jalankan file SQL di Supabase SQL Editor sesuai urutan berikut:
 
-Di GitHub Pages, frontend memanggil Supabase REST API secara langsung menggunakan publishable key; backend Node lokal tidak dijalankan oleh GitHub Pages. Publishable key memang boleh ada di frontend, tetapi jangan pernah memasukkan `service_role` key. Karena demo mengizinkan penulisan oleh role `anon`, siapa pun yang menemukan URL dapat mencoba membuat data; gunakan autentikasi dan policy RLS yang lebih ketat sebelum dipakai untuk data/operasi nyata.
+1. `database/schema.sql`
+2. `database/enable-master-inserts.sql`
+3. `database/operational-features.sql` untuk kalender booking, antrean, dan status pengerjaan.
+4. `database/product-warranty-features.sql` untuk fitur produk dan garansi.
+5. `database/admin-delete-policy.sql` bila penghapusan data oleh admin diperlukan.
 
-Ringkasan menampilkan kalender kapasitas dan counter antrean; Layanan menyediakan penerimaan booking/walk-in dengan tiket, status pengerjaan, estimasi, panggilan lokal dan WhatsApp. Pendapatan menyediakan kasir tiket selesai, cetak nota (thermal atau simpan sebagai PDF lewat dialog browser), serta laporan CSV yang kompatibel dengan Excel.
+### 2. Konfigurasi Supabase
 
-Tidak diperlukan `package.json` atau file `.env.example`. Untuk produksi, simpan publishable key di secret manager dan tambahkan autentikasi pengguna.
+Isi `SUPABASE_URL` dan `SUPABASE_PUBLISHABLE_KEY` pada `backend/app.js` dan `frontend/app.js` dengan konfigurasi project Supabase milikmu. Gunakan **publishable/anon key** untuk frontend. Jangan pernah memasukkan `service_role` key ke frontend atau repository.
+
+### 3. Jalankan server
+
+Pastikan Node.js 18 atau lebih baru telah terpasang, lalu jalankan dari folder utama project:
+
+```powershell
+node backend/app.js
+```
+
+Buka [http://localhost:3000](http://localhost:3000).
+
+## Deploy dan Demo Publik
+
+Frontend di-deploy ke GitHub Pages secara otomatis setiap kali ada push ke branch `main`. Workflow deploy berada di `.github/workflows/deploy-pages.yml`.
+
+**[Buka demo Press Body Motor](https://mohamadafrizalhuda-art.github.io/Bengkel-Press-Body-/)**
+
+## Struktur Proyek
+
+```text
+.
+├── .github/workflows/deploy-pages.yml
+├── backend/app.js
+├── database/
+│   ├── schema.sql
+│   ├── enable-master-inserts.sql
+│   ├── operational-features.sql
+│   ├── product-warranty-features.sql
+│   └── admin-delete-policy.sql
+├── frontend/
+│   ├── index.html
+│   ├── styles.css
+│   ├── app.js
+│   └── logo/
+└── start-server.ps1
+```
+
+## Catatan Keamanan
+
+GitHub Pages hanya meng-host frontend; backend Node.js lokal tidak berjalan di sana. Frontend mengakses Supabase REST API secara langsung, sehingga publishable key dapat terlihat oleh pengunjung. Atur Supabase Row Level Security (RLS) dengan hati-hati: kebijakan yang mengizinkan role `anon` menulis data dapat digunakan oleh siapa pun yang mengakses demo. Jangan gunakan konfigurasi demo untuk data pelanggan atau operasional nyata tanpa autentikasi dan policy yang sesuai.
